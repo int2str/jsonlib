@@ -32,6 +32,7 @@ Checks: >
   -readability-braces-around-statements,
   -readability-use-anyofallof,
 
+ExtraArgs: ["-std=c++17", "-Iinclude"]
 WarningsAsErrors: false
 AnalyzeTemporaryDtors: false
 FormatStyle:     file
