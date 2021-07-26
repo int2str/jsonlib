@@ -12,6 +12,6 @@ Simple example (can be found in example/ folder):
     #include "jsonlib/json.h"
 
     int main() {
-      json::JSON json{"{ \"hello\": \"jsonlib!\" }"};
+      json::JSON json{R"{ \"hello\": \"jsonlib!\" }"};
       std::cout << "Hello, " << json["hello"].asString() << "\n";
     }
