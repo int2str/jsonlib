@@ -1,3 +1,4 @@
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -15,6 +16,7 @@ std::vector<json::Token> parse(std::string_view json) {
     std::ostringstream error_str;
     error_str << error.message << " at offset "
               << static_cast<int>(error.offset);
+    std::cerr << error_str.str() << std::endl;
     throw std::string{error_str.str()};
   }
 }
@@ -28,8 +30,7 @@ void ASSERT_VALID_AND_FIRST_TOKEN_IS_NUMBER(std::string number_str) {
 
 }  // namespace
 
-namespace json {
-namespace test {
+namespace json::test {
 
 TEST(TokenizerAcceptsEmptyString) {
   auto tokens = parse("");
@@ -150,5 +151,14 @@ TEST(TokenizerParsesMultilineJson) {
   EXPECT_EQ(mismatch.first, tokens.end());
 }
 
-}  // namespace test
-}  // namespace json
+TEST(TokenizerParsesEscapedCharacterString) {
+  auto t_quote = parse("\"\\\"\"");
+  EXPECT_EQ(t_quote[0].type(), Token::STRING);
+  EXPECT_EQ(t_quote[0].asString(), "\"");
+
+  auto t_backslash = parse("\"\\\\\"");
+  EXPECT_EQ(t_backslash[0].type(), Token::STRING);
+  EXPECT_EQ(t_backslash[0].asString(), "\\");
+}
+
+}  // namespace json::test

@@ -1,6 +1,7 @@
 #include "tokenizer.h"
 
 #include <functional>
+#include <string>
 
 #include "consumable.h"
 
@@ -117,15 +118,38 @@ void parseNumber(JSON& json, Tokens& tokens) {
 void parseString(JSON& json, Tokens& tokens) {
   if (json.eol() || !json.canPeek() || !json.consume_if('"')) return;
 
-  size_t initial_offset = json.idx();
-  while (!json.eol() && json.current() != '"') json.skip(1);
+  const size_t initial_offset = json.idx();
+  std::string token{};
 
-  if (!json.eol() && json.consume_if('"')) {
-    tokens.push_back(Token{
-        json.data().substr(initial_offset, json.idx() - initial_offset - 1)});
-  } else {
-    throw ValidationError{initial_offset, "Unterminated string"};
+  while (!json.eol()) {
+    switch (json.current()) {
+      case '"':
+        json.skip(1);
+        tokens.push_back(Token{token});
+        return;
+      case '\\':
+        if (!json.canPeek())
+          throw ValidationError{initial_offset, "Unterminated escape sequence"};
+        switch (json.peek()) {
+          case '"':
+            token += '"';
+            break;
+          case '\\':
+            token += '\\';
+            break;
+          default:
+            throw ValidationError{json.idx(),
+                                  "Invalid escape sequence in string"};
+        }
+        json.skip(2);
+        break;
+      default:
+        token += json.consume();
+    }
   }
+
+  throw ValidationError{initial_offset,
+                        "Unterminated string/string parsing error"};
 }
 
 std::vector<Token> Tokenizer::parse(std::string_view json) {
