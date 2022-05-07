@@ -24,6 +24,7 @@ class Node {
   [[nodiscard]] const std::vector<Node>& children() const;
   [[nodiscard]] double asNumber() const;
   [[nodiscard]] int asInteger() const;
+  [[nodiscard]] unsigned asUnsigned() const;
   [[nodiscard]] bool asBool() const;
   [[nodiscard]] const std::string& asString() const;
 

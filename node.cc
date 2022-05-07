@@ -36,6 +36,7 @@ std::string Node::id() const { return id_; }
 const std::vector<Node>& Node::children() const { return children_; }
 double Node::asNumber() const { return std::get<double>(value_); }
 int Node::asInteger() const { return static_cast<int>(asNumber()); }
+unsigned Node::asUnsigned() const { return static_cast<unsigned>(asNumber()); }
 bool Node::asBool() const { return std::get<bool>(value_); }
 const std::string& Node::asString() const {
   return std::get<std::string>(value_);
