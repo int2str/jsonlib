@@ -1,0 +1,44 @@
+[
+  {
+    "directory": "/home/andre/Development/json",
+    "command": "clang++ -g -O0 -std=c++20 -W -Werror -Wall -Wconversion -Wextra -pedantic -flto -I. -Itestrunner/include -fsanitize=undefined -lfmt -flto -Lbuild -o build/json-test build/testrunner_main.o build/testrunner_selftest.o build/json_tests.o build/statusor_tests.o build/character_tests.o ",
+    "file": "build/testrunner_main.o",
+    "output": "build/json-test"
+  },
+  {
+    "directory": "/home/andre/Development/json",
+    "command": "clang++ -MMD -MF build/testrunner_main.o.d -g -O0 -std=c++20 -W -Werror -Wall -Wconversion -Wextra -pedantic -flto -I. -Itestrunner/include -c testrunner/testrunner_main.cc -o build/testrunner_main.o",
+    "file": "testrunner/testrunner_main.cc",
+    "output": "build/testrunner_main.o"
+  },
+  {
+    "directory": "/home/andre/Development/json",
+    "command": "clang++ -MMD -MF build/testrunner_selftest.o.d -g -O0 -std=c++20 -W -Werror -Wall -Wconversion -Wextra -pedantic -flto -I. -Itestrunner/include -c testrunner/testrunner_selftest.cc -o build/testrunner_selftest.o",
+    "file": "testrunner/testrunner_selftest.cc",
+    "output": "build/testrunner_selftest.o"
+  },
+  {
+    "directory": "/home/andre/Development/json",
+    "command": "clang++ -MMD -MF build/json_tests.o.d -g -O0 -std=c++20 -W -Werror -Wall -Wconversion -Wextra -pedantic -flto -I. -Itestrunner/include -c json/json_tests.cc -o build/json_tests.o",
+    "file": "json/json_tests.cc",
+    "output": "build/json_tests.o"
+  },
+  {
+    "directory": "/home/andre/Development/json",
+    "command": "clang++ -MMD -MF build/statusor_tests.o.d -g -O0 -std=c++20 -W -Werror -Wall -Wconversion -Wextra -pedantic -flto -I. -Itestrunner/include -c json/statusor_tests.cc -o build/statusor_tests.o",
+    "file": "json/statusor_tests.cc",
+    "output": "build/statusor_tests.o"
+  },
+  {
+    "directory": "/home/andre/Development/json",
+    "command": "clang++ -MMD -MF build/character_tests.o.d -g -O0 -std=c++20 -W -Werror -Wall -Wconversion -Wextra -pedantic -flto -I. -Itestrunner/include -c json/character_tests.cc -o build/character_tests.o",
+    "file": "json/character_tests.cc",
+    "output": "build/character_tests.o"
+  },
+  {
+    "directory": "/home/andre/Development/json",
+    "command": "cppcheck --project=project.cppcheck --enable=all --quiet",
+    "file": "project.cppcheck",
+    "output": "cppcheck"
+  }
+]

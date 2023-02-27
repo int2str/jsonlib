@@ -4,35 +4,27 @@ Checks: >
 
   bugprone-*,
 
-  clang-analyzer-*,
-
-  concurrency-*,
-
-  cppcoreguidelines-*,
-
   clang-diagnostic-*,
   -clang-diagnostic-unused-command-line-argument,
+  -clang-diagnostic-error,
 
   google-*,
-  -google-runtime-references,
   -google-readability-braces-around-statements,
 
   misc-*,
   -misc-noexcept*,
-  -misc-no-recursion,
 
   modernize-*,
-  -modernize-use-nodiscard,
   -modernize-use-trailing-return-type,
 
   performance-*,
 
   readability-*,
-  -readability-qualified-auto,
   -readability-braces-around-statements,
-  -readability-use-anyofallof,
+  -readability-identifier-length,
+  -readability-magic-numbers,
 
-ExtraArgs: ["-std=c++17", "-Iinclude"]
+
 WarningsAsErrors: false
 AnalyzeTemporaryDtors: false
 FormatStyle:     file

@@ -1,0 +1,44 @@
+cc = clang++
+ar = ar
+tidy = clang-tidy
+
+cflags = -g -O0 -std=c++20 -W -Werror -Wall -Wconversion -Wextra -pedantic -flto -I. -Itestrunner/include
+ldflags = -fsanitize=undefined -lfmt -flto
+
+rule cc
+    command = $cc -MMD -MF $out.d $cflags -c $in -o $out
+    description = C++ $out
+    depfile = $out.d
+
+rule link
+    command = $cc $cflags $ldflags -o $out $in $libs
+    description = LNK $out
+
+rule ar
+    command = $ar rcs $out $in
+    description = LIB $out
+
+rule lint
+    command = $out --project=$in --enable=all --quiet
+    description = LNT $out
+
+rule mkdir
+    command = mkdir -p $out
+    description = DIR $out
+
+builddir = build
+ldflags = $ldflags -L$builddir
+
+build $builddir/json-test: link $builddir/testrunner_main.o $builddir/testrunner_selftest.o $
+    $builddir/json_tests.o $builddir/statusor_tests.o $builddir/character_tests.o
+default $builddir/json-test
+
+build $builddir/testrunner_main.o: cc testrunner/testrunner_main.cc
+build $builddir/testrunner_selftest.o: cc testrunner/testrunner_selftest.cc
+
+build $builddir/json_tests.o: cc json/json_tests.cc
+build $builddir/statusor_tests.o: cc json/statusor_tests.cc
+build $builddir/character_tests.o: cc json/character_tests.cc
+
+build $builddir/cppcheck.dir: mkdir
+build cppcheck: lint project.cppcheck | $builddir/cppcheck.dir
