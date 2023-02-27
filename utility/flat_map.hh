@@ -22,18 +22,18 @@ class forward_iterator {
   [[nodiscard]] explicit forward_iterator(REF* ref, size_t idx) noexcept
       : idx_{idx}, ref_{ref} {}
 
-  [[nodiscard]] const V& operator*() const noexcept {
+  [[nodiscard]] auto operator*() const noexcept -> const V& {
     return ref_->value_at(idx_);
   }
 
-  [[nodiscard]] V& operator*() noexcept { return ref_->value_at(idx_); }
+  [[nodiscard]] auto operator*() noexcept -> V& { return ref_->value_at(idx_); }
 
-  forward_iterator& operator++() {
+  auto operator++() -> forward_iterator& {
     ++idx_;
     return *this;
   }
 
-  auto operator<=>(const forward_iterator&) const = default;
+  auto operator<=>(const forward_iterator&) const noexcept = default;
 };
 
 template <typename K, typename V, size_t N>
@@ -62,29 +62,31 @@ class FlatMap {
     }
   }
 
-  [[nodiscard]] constexpr const V& operator[](const K& key) const {
+  [[nodiscard]] constexpr auto operator[](const K& key) const -> const V& {
     return std::find_if(values_.cbegin(), values_.cend(),
                         [&](const auto& kv) { return kv.key == key; })
         ->value;
   }
 
-  [[nodiscard]] constexpr V& operator[](const K& key) {
+  [[nodiscard]] constexpr auto operator[](const K& key) -> V& {
     return std::find_if(values_.begin(), values_.end(),
                         [&](const auto& kv) { return kv.key == key; })
         ->value;
   }
 
-  [[nodiscard]] constexpr bool contains(const K& key) const {
+  [[nodiscard]] constexpr auto contains(const K& key) const -> bool {
     return std::find_if(values_.cbegin(), values_.cend(), [&](const auto& kv) {
              return kv.key == key;
            }) != values_.cend();
   }
 
-  [[nodiscard]] iterator begin() { return iterator(this, 0); }
-  [[nodiscard]] iterator end() { return iterator(this, size_); }
+  [[nodiscard]] auto begin() -> iterator { return iterator(this, 0); }
+  [[nodiscard]] auto end() -> iterator { return iterator(this, size_); }
 
-  [[nodiscard]] const_iterator begin() const { return const_iterator(this, 0); }
-  [[nodiscard]] const_iterator end() const {
+  [[nodiscard]] auto begin() const -> const_iterator {
+    return const_iterator(this, 0);
+  }
+  [[nodiscard]] auto end() const -> const_iterator {
     return const_iterator(this, size_);
   }
 
@@ -93,9 +95,9 @@ class FlatMap {
   size_t size_{};
 
   friend const_iterator;
-  const Entry& value_at(size_t idx) const { return values_.at(idx); }
+  auto value_at(size_t idx) const -> const Entry& { return values_.at(idx); }
   friend iterator;
-  Entry& value_at(size_t idx) { return values_.at(idx); }
+  auto value_at(size_t idx) -> Entry& { return values_.at(idx); }
 };
 
 #endif  // FLAT_MAP_HH
