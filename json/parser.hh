@@ -32,8 +32,6 @@ class Parser {
 
  public:
   [[nodiscard]] auto parse(std::string_view json_source) -> Status {
-    internal::Parser parser;
-
     while (!json_source.empty()) {
       auto maybe_token = json::internal::Tokenizer::parse(json_source);
       if (maybe_token) {
