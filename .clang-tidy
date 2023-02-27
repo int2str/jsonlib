@@ -15,7 +15,6 @@ Checks: >
   -misc-noexcept*,
 
   modernize-*,
-  -modernize-use-trailing-return-type,
 
   performance-*,
 

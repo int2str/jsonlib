@@ -23,7 +23,7 @@ class FixedStack {
 
   void push(T value) { data_[size_++] = value; }
 
-  T pop() { return data_[--size_]; }
+  auto pop() -> T { return data_[--size_]; }
 };
 
 #endif  // FIXED_STACK_HH
