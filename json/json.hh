@@ -44,6 +44,10 @@ class ValueIterator {
     return container_->at(idx_)->value;
   }
 
+  [[nodiscard]] auto name() const -> std::string_view {
+    return container_->at(idx_)->name;
+  }
+
   [[nodiscard]] auto operator*() const -> const ValueIterator& { return *this; }
 
   [[nodiscard]] auto operator[](std::string_view key) const -> ValueIterator {
