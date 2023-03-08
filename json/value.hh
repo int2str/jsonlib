@@ -21,7 +21,7 @@ struct Object {};
 struct Array {};
 
 struct Number {
-  float value{};
+  double value{};
 };
 
 struct String {

@@ -32,7 +32,7 @@ class ValueIterator {
     return std::get<json::String>(value()).value;
   }
 
-  [[nodiscard]] auto number() const -> float {
+  [[nodiscard]] auto number() const -> double {
     return std::get<json::Number>(value()).value;
   }
 

@@ -119,7 +119,7 @@ class Parser {
         break;
 
       case Token::Type::Number: {
-        float value{};
+        double value{};
         std::from_chars(token.value.begin(), token.value.end(), value);
         nodes_.emplace_back(Node{Number{value}, parents_.top()});
         break;

@@ -43,3 +43,9 @@ TEST(Json_ParsesSimpleObject) {
   ASSERT_TRUE(std::holds_alternative<json::String>((*simple)["Hello"].value()));
   EXPECT_EQ((*simple)["Hello"].string(), "Object");
 }
+
+TEST(Json_ParsesNumber) {
+  auto number_json = json::Json::parse(R"({"Number": 25373547)");
+  ASSERT_TRUE(number_json);
+  EXPECT_EQ(static_cast<int>((*number_json)["Number"].number()), 25373547);
+}
