@@ -7,7 +7,7 @@ template <typename StatusType, typename ValueType>
 class StatusOrBase {
   bool has_value_;
 
-  alignas(alignof(ValueType)) union {
+  union alignas(alignof(ValueType)) {
     StatusType status_;
     ValueType data_;
   };
