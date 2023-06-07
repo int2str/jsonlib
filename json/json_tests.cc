@@ -12,12 +12,12 @@ TEST(Json_ParsesConstantValues) {
   auto json_true = json::Json::parse("   true");
   ASSERT_TRUE(json_true);
   ASSERT_TRUE(std::holds_alternative<json::Boolean>(json_true->value()));
-  ASSERT_TRUE(json_true->begin().boolean());
+  ASSERT_TRUE(*json_true->begin().boolean());
 
   auto json_false = json::Json::parse("false   ");
   ASSERT_TRUE(json_false);
   ASSERT_TRUE(std::holds_alternative<json::Boolean>(json_false->value()));
-  ASSERT_FALSE(json_false->begin().boolean());
+  ASSERT_FALSE(*json_false->begin().boolean());
 }
 
 TEST(Json_ParsesEmptyValues) {
@@ -41,13 +41,13 @@ TEST(Json_ParsesSimpleObject) {
   ASSERT_TRUE(simple);
   ASSERT_TRUE(std::holds_alternative<json::Object>(simple->value()));
   ASSERT_TRUE(std::holds_alternative<json::String>((*simple)["Hello"].value()));
-  EXPECT_EQ((*simple)["Hello"].string(), "Object");
+  EXPECT_EQ(*(*simple)["Hello"].string(), "Object");
 }
 
 TEST(Json_ParsesNumber) {
   auto number_json = json::Json::parse(R"({"Number": 25373547)");
   ASSERT_TRUE(number_json);
-  EXPECT_EQ(static_cast<int>((*number_json)["Number"].number()), 25373547);
+  EXPECT_EQ(static_cast<int>(*(*number_json)["Number"].number()), 25373547);
 }
 
 TEST(Json_KnowsWhatItHas) {

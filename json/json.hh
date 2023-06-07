@@ -2,6 +2,8 @@
 #define JSON_HH
 
 #include <algorithm>
+#include <optional>
+#include <variant>
 
 #include "json/parser.hh"
 #include "json/status.hh"
@@ -28,23 +30,24 @@ class ValueIterator {
   [[nodiscard]] constexpr auto operator<=>(
       const ValueIterator&) const noexcept = default;
 
-  [[nodiscard]] auto string() const -> std::string_view {
-    return std::get<json::String>(value()).value;
+  [[nodiscard]] auto string() const -> std::optional<std::string_view> {
+    return this->accessAs<json::String, std::string_view>();
   }
 
-  [[nodiscard]] auto number() const -> double {
-    return std::get<json::Number>(value()).value;
+  [[nodiscard]] auto number() const -> std::optional<double> {
+    return this->accessAs<json::Number, double>();
   }
 
-  [[nodiscard]] auto boolean() const -> bool {
-    return std::get<json::Boolean>(value()).value;
+  [[nodiscard]] auto boolean() const -> std::optional<bool> {
+    return this->accessAs<json::Boolean, bool>();
   }
 
   [[nodiscard]] auto value() const -> const Value& {
     return container_->at(idx_)->value;
   }
 
-  [[nodiscard]] auto name() const -> std::string_view {
+  [[nodiscard]] auto name() const -> std::optional<std::string_view> {
+    if (*this == container_->end()) return std::nullopt;
     return container_->at(idx_)->name;
   }
 
@@ -90,6 +93,14 @@ class ValueIterator {
 
   [[nodiscard]] auto node() const -> const internal::Node* {
     return container_->at(idx_);
+  }
+
+  template <typename Alternative, typename Returns>
+  [[nodiscard]] auto accessAs() const -> std::optional<Returns> {
+    if (node() == nullptr) return std::nullopt;
+    if (!std::holds_alternative<Alternative>(node()->value))
+      return std::nullopt;
+    return std::get<Alternative>(node()->value).value;
   }
 
   const T* container_;
@@ -138,6 +149,7 @@ class Json {
  private:
   friend ValueIterator<Json>;
   [[nodiscard]] auto at(size_t idx) const -> const internal::Node* {
+    if (idx >= nodes_.size()) return nullptr;
     return &nodes_.at(idx);
   }
 };
