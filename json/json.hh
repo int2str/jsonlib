@@ -64,6 +64,10 @@ class ValueIterator {
     return container_->end();
   }
 
+  [[nodiscard]] auto has(std::string_view key) const -> bool {
+    return (*this)[key] != container_->end();
+  }
+
   [[nodiscard]] auto begin() const -> ValueIterator {
     if (*this == container_->end()) return *this;
     return ValueIterator{container_, idx_ + 1};
@@ -113,6 +117,10 @@ class Json {
       -> ValueIterator<Json> {
     if (nodes_.empty()) return end();
     return begin()[key];
+  }
+
+  [[nodiscard]] auto has(std::string_view key) const -> bool {
+    return (*this)[key] != end();
   }
 
   [[nodiscard]] auto begin() const -> ValueIterator<Json> {

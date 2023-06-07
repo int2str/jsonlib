@@ -49,3 +49,12 @@ TEST(Json_ParsesNumber) {
   ASSERT_TRUE(number_json);
   EXPECT_EQ(static_cast<int>((*number_json)["Number"].number()), 25373547);
 }
+
+TEST(Json_KnowsWhatItHas) {
+  auto simple = json::Json::parse(R"({"Hello": {"World": "Earth"})");
+  ASSERT_TRUE(simple);
+  ASSERT_TRUE(simple->has("Hello"));
+  ASSERT_FALSE(simple->has("World"));
+  ASSERT_TRUE((*simple)["Hello"].has("World"));
+  ASSERT_FALSE((*simple)["Hello"].has("Earth"));
+}
