@@ -114,6 +114,8 @@ class Json {
       : nodes_{std::move(nodes)} {};
 
  public:
+  using value_iterator = ValueIterator<Json>;
+
   [[nodiscard]] static auto parse(std::string_view json_source)
       -> StatusOr<Json> {
     internal::Parser parser;
@@ -124,8 +126,7 @@ class Json {
     return Json{parser.nodes()};
   }
 
-  [[nodiscard]] auto operator[](std::string_view key) const
-      -> ValueIterator<Json> {
+  [[nodiscard]] auto operator[](std::string_view key) const -> value_iterator {
     if (nodes_.empty()) return end();
     return begin()[key];
   }
@@ -134,11 +135,11 @@ class Json {
     return (*this)[key] != end();
   }
 
-  [[nodiscard]] auto begin() const -> ValueIterator<Json> {
+  [[nodiscard]] auto begin() const -> value_iterator {
     return ValueIterator{this, 0};
   }
 
-  [[nodiscard]] auto end() const -> ValueIterator<Json> {
+  [[nodiscard]] auto end() const -> value_iterator {
     return ValueIterator{this, nodes_.size()};
   }
 
@@ -147,7 +148,7 @@ class Json {
   }
 
  private:
-  friend ValueIterator<Json>;
+  friend value_iterator;
   [[nodiscard]] auto at(size_t idx) const -> const internal::Node* {
     if (idx >= nodes_.size()) return nullptr;
     return &nodes_.at(idx);
