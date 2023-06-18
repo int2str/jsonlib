@@ -1,3 +1,5 @@
+#include <cstdint>
+
 #include "json/status.hh"
 #include "testrunner/testrunner.h"
 

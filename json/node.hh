@@ -18,19 +18,4 @@ struct Node {
 
 }  // namespace json::internal
 
-template <>
-struct fmt::formatter<json::internal::Node> {
-  template <typename ParseContext>
-  constexpr auto parse(ParseContext& ctx) {
-    return ctx.begin();
-  }
-
-  template <typename FormatContext>
-  auto format(const json::internal::Node& node, FormatContext& ctx) {
-    fmt::format_to(ctx.out(), "Parent: {} Child nodes: {} - '{}': {}",
-                   node.parent, node.children, node.name, node.value);
-    return ctx.out();
-  }
-};
-
 #endif  // NODE_HH
