@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <array>
 #include <initializer_list>
-#include <iostream>
 #include <iterator>
 
 template <typename V, typename REF>
