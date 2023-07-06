@@ -1,5 +1,3 @@
-#include <mutex>
-
 #include "character_utils.hh"
 #include "testrunner/testrunner.h"
 
