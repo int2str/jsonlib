@@ -35,7 +35,11 @@ class StatusOrBase {
 
   [[nodiscard]] auto operator*() -> ValueType& { return data_; }
 
+  [[nodiscard]] auto operator*() const -> const ValueType& { return data_; }
+
   [[nodiscard]] auto operator->() -> ValueType* { return &data_; }
+
+  [[nodiscard]] auto operator->() const -> const ValueType* { return &data_; }
 };
 
 #endif  // STATUS_OR_HH
