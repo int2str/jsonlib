@@ -1,7 +1,6 @@
 #ifndef ONE_OF_HH
 #define ONE_OF_HH
 
-#include <algorithm>
 #include <tuple>
 
 template <typename... Ts>
