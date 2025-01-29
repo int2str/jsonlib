@@ -33,8 +33,8 @@ build $builddir/json-test: link $builddir/testrunner_main.o $builddir/testrunner
     $builddir/json_tests.o $builddir/statusor_tests.o $builddir/character_tests.o
 default $builddir/json-test
 
-build $builddir/testrunner_main.o: cc testrunner/testrunner_main.cc
-build $builddir/testrunner_selftest.o: cc testrunner/testrunner_selftest.cc
+build $builddir/testrunner_main.o: cc testrunner/src/testrunner_main.cc
+build $builddir/testrunner_selftest.o: cc testrunner/src/testrunner_selftest.cc
 
 build $builddir/json_tests.o: cc json/json_tests.cc
 build $builddir/statusor_tests.o: cc json/statusor_tests.cc
